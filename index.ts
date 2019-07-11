@@ -24,13 +24,13 @@ const fakeApiCall$ = timer(1000).pipe(
 );
 
 class MockPanel {
-  constructor(public panelName: string){}
+  constructor(public panelName: string) { }
 
   public open(context: fakeContext) {
     context.filterData.subscribe(
-        x => console.log(`Panel ${this.panelName}:`, x),
-        err => console.log(`Panel ${this.panelName} Error:`, err),
-        () => console.log(`Panel ${this.panelName} Complete`));
+      x => console.log(`Panel ${this.panelName}:`, x),
+      err => console.log(`Panel ${this.panelName} Error:`, err),
+      () => console.log(`Panel ${this.panelName} Complete`));
   }
 }
 
@@ -42,9 +42,12 @@ class MockPanel {
 // this would be a private property in your class
 const filterData$: Observable<FilterDataResponse[]> = fakeApiCall$.pipe(
   publishLast()
-  );
+);
 
 (filterData$ as ConnectableObservable<any>).connect();
+console.log(`shouldn't call API yet`);
+
+
 
 // this is whatever function you have that opens the panel
 function openPanel(panel: MockPanel) {
@@ -56,7 +59,7 @@ function openPanel(panel: MockPanel) {
   panel.open(context);
 }
 
-console.log(`shouldn't call API yet`);
+
 const panelA = new MockPanel('A');
 const panelB = new MockPanel('B');
 
